@@ -9,9 +9,26 @@ import SwiftUI
 
 @main
 struct EmacsClientApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
+	
+	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+	
+	@State var isOn = false
+	
+	var body: some Scene {
+		MenuBarExtra {
+			MenuView()
+		} label: {
+			Label("EmacsClient", systemImage: "text.page.fill")
+		}
+		
+		Settings {
+			SettingsView()
+		}
+	}
+}
+
+class AppDelegate: NSObject, NSApplicationDelegate {
+	func application(_ application: NSApplication, open urls: [URL]) {
+		urls.forEach(handle)
+	}
 }
