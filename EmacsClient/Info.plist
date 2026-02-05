@@ -25,5 +25,7 @@
 			</array>
 		</dict>
 	</array>
+	<key>CFBundleDisplayName</key>
+	<string>EmacsClient+</string>
 </dict>
 </plist>

@@ -15,10 +15,12 @@ struct EmacsClientApp: App {
 	@State var isOn = false
 	
 	var body: some Scene {
+		
+		
 		MenuBarExtra {
 			MenuView()
 		} label: {
-			Label("EmacsClient", systemImage: "text.page.fill")
+			Label("EmacsClient+", systemImage: "text.page.fill")
 		}
 		
 		Settings {
