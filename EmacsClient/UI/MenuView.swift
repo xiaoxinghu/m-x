@@ -19,6 +19,12 @@ struct MenuView: View {
 				// Then open settings
 				openSettings()
 			}
+
+			Button("Quit") {
+				NSApplication.shared.terminate(nil)
+			}
+			.buttonStyle(.borderedProminent)
+			.controlSize(.large)
 		}
 		.padding()
 	}
