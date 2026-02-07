@@ -1,10 +1,10 @@
 ;;; bar.el --- Floating M-x frame -*- lexical-binding: t; -*-
 
-(defun my/m-x--frame-p (&optional frame)
-  "Return non-nil if FRAME is a my/m-x frame."
-  (frame-parameter frame 'my-m-x-frame))
+(defun my/popup-command--frame-p (&optional frame)
+  "Return non-nil if FRAME is a popup-command frame."
+  (frame-parameter frame 'my-popup-command-frame))
 
-(defun my/m-x--centered-position (frame &optional base-frame)
+(defun my/popup-command--centered-position (frame &optional base-frame)
   "Return cons of (LEFT . TOP) to center FRAME on BASE-FRAME's monitor."
   (let* ((attrs (frame-monitor-attributes (or base-frame (selected-frame))))
          (workarea (alist-get 'workarea attrs))
@@ -18,8 +18,8 @@
          (top (+ base-y (max 0 (/ (- disp-h frame-h) 2)))))
     (cons left top)))
 
-(defun my/m-x--make-frame ()
-  "Create and return a centered floating minibuffer-only frame for M-x."
+(defun my/popup-command--make-frame ()
+  "Create and return a centered floating minibuffer-only frame."
   (let* ((params `((name . "my-m-x")
                    (minibuffer . only)
                    (width . 80)
@@ -33,26 +33,38 @@
                    (vertical-scroll-bars . nil)
                    (horizontal-scroll-bars . nil)
                    (internal-border-width . 12)
-                   (my-m-x-frame . t)))
+                   (my-popup-command-frame . t)))
          (frame (make-frame params)))
-    (let* ((pos (my/m-x--centered-position frame (selected-frame))))
+    (let* ((pos (my/popup-command--centered-position frame (selected-frame))))
       (set-frame-position frame (car pos) (cdr pos)))
     frame))
 
-;;;###autoload
-(defun my/m-x ()
-  "Open a floating frame and run `execute-extended-command'."
-  (interactive)
-  (let* ((frame (if (my/m-x--frame-p (selected-frame))
+(defun my/popup-command--call-with-frame (command)
+  "Run COMMAND in a temporary centered minibuffer frame."
+  (let* ((frame (if (my/popup-command--frame-p (selected-frame))
                     (selected-frame)
-                  (my/m-x--make-frame))))
+                  (my/popup-command--make-frame))))
     (select-frame-set-input-focus frame)
     (with-selected-frame frame
       (unwind-protect
-          (call-interactively #'execute-extended-command)
+          (call-interactively command)
         (when (and (frame-live-p frame)
-                   (my/m-x--frame-p frame))
+                   (my/popup-command--frame-p frame))
           (delete-frame frame))))))
+
+;;;###autoload
+(defun my/popup-command (&optional command)
+  "Run COMMAND, showing a temporary popup frame if user input is likely.
+
+When COMMAND is nil, defaults to `execute-extended-command'."
+  (interactive)
+  (let* ((cmd (or command #'execute-extended-command)))
+    (unless (commandp cmd)
+      (user-error "Not an interactive command: %S" cmd))
+    (my/popup-command--call-with-frame cmd)))
+
+;;;###autoload
+(defalias 'my/m-x #'my/popup-command)
 
 (provide 'bar)
 
