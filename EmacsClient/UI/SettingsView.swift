@@ -14,6 +14,12 @@ struct SettingsView: View {
 		Form {
 			TextField("EmacsClient Path", text: $emacsclientPath)
 				.textFieldStyle(RoundedBorderTextFieldStyle())
+
+			Button("Quit") {
+				NSApplication.shared.terminate(nil)
+			}
+			.buttonStyle(.borderedProminent)
+			.controlSize(.large)
 		}
 		.frame(maxWidth: 500)
 		.padding()
