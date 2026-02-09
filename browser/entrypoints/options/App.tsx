@@ -1,7 +1,6 @@
 import { For, Show, createSignal, onMount } from 'solid-js'
 import { deleteAction, getConfig, saveConfig } from '@/lib/storage'
 import type { ActionItem } from '@/lib/types'
-import './App.css'
 
 function App() {
 	const [actions, setActions] = createSignal<ActionItem[]>([])
@@ -62,14 +61,14 @@ function App() {
 	}
 
 	return (
-		<div class='page'>
-			<header class='header'>
+		<div class="mx-auto grid max-w-[900px] gap-5 bg-[#f7f9fc] px-5 pb-8 pt-7 text-[#0f172a] [font-family:'Inter_Tight','Avenir_Next','Segoe_UI',sans-serif]">
+			<header class='flex items-start justify-between gap-4'>
 				<div>
-					<h1>EmacsClient Actions</h1>
-					<p>Manage actions available in the command palette popup.</p>
+					<h1 class='mb-2 text-[28px] font-bold'>EmacsClient Actions</h1>
+					<p class='text-slate-600'>Manage actions available in the command palette popup.</p>
 				</div>
 				<a
-					class='secondary-link'
+					class='self-center text-[13px] text-[#2155d6] no-underline hover:underline'
 					href='chrome://extensions/shortcuts'
 					target='_blank'
 					rel='noreferrer'
@@ -78,64 +77,76 @@ function App() {
 				</a>
 			</header>
 
-			<section class='panel'>
-				<h2>{editingId() ? 'Edit Action' : 'New Action'}</h2>
-				<label class='field'>
-					<span>Name</span>
+			<section class='grid gap-3 rounded-xl border border-[#dbe3ef] bg-white p-[18px]'>
+				<h2 class='text-lg font-semibold'>{editingId() ? 'Edit Action' : 'New Action'}</h2>
+				<label class='grid gap-1.5'>
+					<span class='text-[13px] font-semibold text-slate-700'>Name</span>
 					<input
+						class='w-full rounded-lg border border-[#c8d3e2] px-2.5 py-2.5'
 						type='text'
 						value={name()}
 						onInput={(event) => setName(event.currentTarget.value)}
 						placeholder='Capture Note'
 					/>
 				</label>
-				<label class='field'>
-					<span>Elisp Code</span>
+				<label class='grid gap-1.5'>
+					<span class='text-[13px] font-semibold text-slate-700'>Elisp Code</span>
 					<textarea
+						class="w-full rounded-lg border border-[#c8d3e2] px-2.5 py-2.5 [font-family:'SF_Mono',Menlo,Monaco,Consolas,'Liberation_Mono',monospace]"
 						rows={4}
 						value={elispCode()}
 						onInput={(event) => setElispCode(event.currentTarget.value)}
 						placeholder='(org-capture)'
 					/>
 				</label>
-				<div class='button-row'>
-					<button class='primary' type='button' onClick={saveAction}>
+				<div class='flex gap-2.5'>
+					<button
+						class='cursor-pointer rounded-lg border-0 bg-[#2155d6] px-3 py-2 font-semibold text-white'
+						type='button'
+						onClick={saveAction}
+					>
 						{editingId() ? 'Update Action' : 'Add Action'}
 					</button>
 					<Show when={editingId()}>
-						<button class='secondary' type='button' onClick={resetForm}>
+						<button
+							class='cursor-pointer rounded-lg border-0 bg-[#e9eef7] px-3 py-2 font-semibold text-[#0f172a]'
+							type='button'
+							onClick={resetForm}
+						>
 							Cancel
 						</button>
 					</Show>
 				</div>
 			</section>
 
-			<section class='panel'>
-				<h2>Configured Actions</h2>
+			<section class='grid gap-3 rounded-xl border border-[#dbe3ef] bg-white p-[18px]'>
+				<h2 class='text-lg font-semibold'>Configured Actions</h2>
 				<Show
 					when={actions().length > 0}
 					fallback={
-						<p class='empty'>No actions configured yet. Add your first action.</p>
+						<p class='m-0 text-slate-500'>No actions configured yet. Add your first action.</p>
 					}
 				>
-					<div class='list'>
+					<div class='grid gap-2.5'>
 						<For each={actions()}>
 							{(action) => (
-								<div class='item'>
-									<div class='item-content'>
-										<div class='item-title'>{action.name}</div>
-										<div class='item-code'>{action.elispCode}</div>
+								<div class='flex justify-between gap-3 rounded-[10px] border border-[#dbe3ef] p-3'>
+									<div>
+										<div class='font-bold'>{action.name}</div>
+										<div class="mt-1 text-xs text-slate-500 [font-family:'SF_Mono',Menlo,Monaco,Consolas,'Liberation_Mono',monospace]">
+											{action.elispCode}
+										</div>
 									</div>
-									<div class='item-actions'>
+									<div class='flex items-start gap-2'>
 										<button
-											class='secondary'
+											class='cursor-pointer rounded-lg border-0 bg-[#e9eef7] px-3 py-2 font-semibold text-[#0f172a]'
 											type='button'
 											onClick={() => editAction(action)}
 										>
 											Edit
 										</button>
 										<button
-											class='danger'
+											class='cursor-pointer rounded-lg border-0 bg-[#cb2738] px-3 py-2 font-semibold text-white'
 											type='button'
 											onClick={() => removeAction(action.id)}
 										>

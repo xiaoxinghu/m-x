@@ -1,7 +1,11 @@
 import { defineConfig } from 'wxt'
+import tailwindcss from '@tailwindcss/vite'
 
 // See https://wxt.dev/api/config.html
 export default defineConfig({
+	vite: () => ({
+		plugins: [tailwindcss()],
+	}),
 	webExt: {
 		startUrls: [
 			'https://brettterpstra.com/2026/01/07/markdown-fixup-an-opinionated-markdown-linter/',
