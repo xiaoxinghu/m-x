@@ -9,9 +9,16 @@ export default defineConfig({
 	},
 	modules: ['@wxt-dev/module-solid'],
 	manifest: {
-		permissions: ['storage', 'tabs'],
-		host_permissions: ['<all_urls>'],
+		permissions: ['storage', 'activeTab', 'scripting'],
+		commands: {
+			_execute_action: {
+				suggested_key: {
+					default: 'Ctrl+Shift+E',
+					mac: 'Command+Shift+E',
+				},
+			},
+		},
 		name: 'EmacsClient',
-		description: 'Trigger Emacs actions from Chrome with custom keybindings',
+		description: 'Trigger Emacs actions from a popup command palette',
 	},
 })

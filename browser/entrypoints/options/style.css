@@ -1,6 +1,7 @@
 :root {
 	font-family: 'Inter Tight', 'Avenir Next', 'Segoe UI', sans-serif;
-	color: #f2f5fb;
+	color: #0f172a;
+	background: #f7f9fc;
 }
 
 * {
@@ -9,5 +10,4 @@
 
 body {
 	margin: 0;
-	background: #0e1421;
 }

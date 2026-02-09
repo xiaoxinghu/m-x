@@ -1,27 +1,111 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.palette-shell {
+	width: 420px;
+	padding: 12px;
+	background: radial-gradient(circle at top, #2f3f5e 0%, #121826 58%);
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #54bc4ae0);
-}
-.logo.solid:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.palette {
+	border-radius: 14px;
+	border: 1px solid #33435f;
+	background: rgba(14, 20, 33, 0.95);
+	box-shadow: 0 16px 40px rgba(4, 8, 18, 0.45);
+	overflow: hidden;
 }
 
-.card {
-  padding: 2em;
+.palette-search {
+	width: 100%;
+	border: 0;
+	border-bottom: 1px solid #33435f;
+	background: transparent;
+	color: #f2f5fb;
+	padding: 14px 16px;
+	font-size: 14px;
+	outline: none;
 }
 
-.read-the-docs {
-  color: #888;
+.palette-search::placeholder {
+	color: #90a1bf;
+}
+
+.palette-list {
+	max-height: 280px;
+	overflow-y: auto;
+	padding: 6px;
+}
+
+.palette-item {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	text-align: left;
+	padding: 10px 12px;
+	border: 0;
+	border-radius: 10px;
+	background: transparent;
+	color: #e7ecf6;
+	cursor: pointer;
+}
+
+.palette-item.active {
+	background: linear-gradient(130deg, #3f5fa5 0%, #295179 100%);
+}
+
+.palette-item:hover {
+	background: rgba(63, 95, 165, 0.4);
+}
+
+.item-name {
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.01em;
+}
+
+.item-code {
+	font-family: 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+	font-size: 11px;
+	color: #a6b5d3;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.palette-item.active .item-code {
+	color: #dce8ff;
+}
+
+.empty-state {
+	padding: 16px 12px;
+	color: #99a9c7;
+	font-size: 12px;
+}
+
+.palette-footer {
+	display: flex;
+	gap: 12px;
+	align-items: center;
+	border-top: 1px solid #33435f;
+	padding: 8px 12px 10px;
+	font-size: 11px;
+	color: #90a1bf;
+}
+
+.options-link {
+	margin-left: auto;
+	background: transparent;
+	border: 0;
+	color: #c5d3ec;
+	font-size: 11px;
+	cursor: pointer;
+	padding: 0;
+}
+
+.options-link:hover {
+	text-decoration: underline;
+}
+
+.error-message {
+	padding: 8px 12px 12px;
+	font-size: 12px;
+	color: #ffb6b3;
 }
