@@ -88,13 +88,13 @@ function App() {
 
 	return (
 		<div
-			class="w-[420px] bg-[radial-gradient(circle_at_top,#2f3f5e_0%,#121826_58%)] p-3 text-[#f2f5fb] [font-family:'Inter_Tight','Avenir_Next','Segoe_UI',sans-serif]"
+			class="w-[420px] bg-[var(--ec-bg)] p-2 text-[var(--ec-text)] [font-family:'Iosevka','JetBrains_Mono','SF_Mono',Menlo,Monaco,Consolas,'Liberation_Mono',monospace]"
 			onKeyDown={onKeyDown}
 		>
-			<div class='overflow-hidden rounded-[14px] border border-[#33435f] bg-[rgba(14,20,33,0.95)] shadow-[0_16px_40px_rgba(4,8,18,0.45)]'>
+			<div class='overflow-hidden rounded border border-[var(--ec-border)] bg-[var(--ec-surface)]'>
 				<input
 					ref={searchInputRef}
-					class='w-full border-0 border-b border-[#33435f] bg-transparent px-4 py-[14px] text-sm text-[#f2f5fb] outline-none placeholder:text-[#90a1bf]'
+					class='w-full border-0 border-b border-[var(--ec-border)] bg-transparent px-3 py-2 text-[13px] text-[var(--ec-text)] outline-none placeholder:text-[var(--ec-text-subtle)]'
 					type='text'
 					placeholder='Search Emacs action...'
 					value={query()}
@@ -104,11 +104,11 @@ function App() {
 					}}
 				/>
 
-				<div class='max-h-[280px] overflow-y-auto p-1.5' role='listbox' aria-label='Actions'>
+				<div class='max-h-[280px] overflow-y-auto p-1' role='listbox' aria-label='Actions'>
 					<Show
 						when={filteredActions().length > 0}
 						fallback={
-							<div class='px-3 py-4 text-xs text-[#99a9c7]'>
+							<div class='px-3 py-4 text-xs text-[var(--ec-text-subtle)]'>
 								{actions().length === 0
 									? 'No actions yet. Open extension options to add one.'
 									: 'No actions match your search.'}
@@ -119,18 +119,19 @@ function App() {
 							{(action, index) => (
 								<button
 									type='button'
-									class="flex w-full cursor-pointer flex-col gap-[3px] rounded-[10px] border-0 bg-transparent px-3 py-2.5 text-left text-[#e7ecf6] hover:bg-[rgba(63,95,165,0.4)]"
+									class="flex w-full cursor-pointer flex-col gap-[2px] rounded border border-transparent bg-transparent px-2 py-2 text-left text-[var(--ec-text)] hover:border-[var(--ec-border)] hover:bg-[var(--ec-item-hover)]"
 									classList={{
-										'bg-[linear-gradient(130deg,#3f5fa5_0%,#295179_100%)]': index() === selectedIndex(),
+										'border-[var(--ec-border-strong)] bg-[var(--ec-item-active)] text-[var(--ec-text-strong)]':
+											index() === selectedIndex(),
 									}}
 									onMouseEnter={() => setSelectedIndex(index())}
 									onClick={() => runAction(action)}
 								>
-									<span class='text-[13px] font-semibold tracking-[0.01em]'>{action.name}</span>
+									<span class='text-[13px] font-medium'>{action.name}</span>
 									<span
-										class="[font-family:'SF_Mono',Menlo,Monaco,Consolas,'Liberation_Mono',monospace] truncate whitespace-nowrap text-[11px] text-[#a6b5d3]"
+										class='truncate whitespace-nowrap text-[11px] text-[var(--ec-text-muted)]'
 										classList={{
-											'text-[#dce8ff]': index() === selectedIndex(),
+											'text-[var(--ec-text)]': index() === selectedIndex(),
 										}}
 									>
 										{action.elispCode}
@@ -141,20 +142,20 @@ function App() {
 					</Show>
 				</div>
 
-				<div class='flex items-center gap-3 border-t border-[#33435f] px-3 pb-2.5 pt-2 text-[11px] text-[#90a1bf]'>
+				<div class='flex items-center gap-3 border-t border-[var(--ec-border)] px-3 pb-2 pt-2 text-[11px] text-[var(--ec-text-subtle)]'>
 					<span>Up/Down: Navigate</span>
 					<span>Enter: Run</span>
 					<span>Esc: Close</span>
 					<button
 						type='button'
-						class='ml-auto cursor-pointer border-0 bg-transparent p-0 text-[11px] text-[#c5d3ec] hover:underline'
+						class='ml-auto cursor-pointer border-0 bg-transparent p-0 text-[11px] text-[var(--ec-link)] hover:underline'
 						onClick={() => browser.runtime.openOptionsPage()}
 					>
 						Edit Actions
 					</button>
 				</div>
 				<Show when={errorMessage()}>
-					<div class='px-3 pb-3 pt-2 text-xs text-[#ffb6b3]'>{errorMessage()}</div>
+					<div class='px-3 pb-3 pt-2 text-xs text-[var(--ec-danger)]'>{errorMessage()}</div>
 				</Show>
 			</div>
 		</div>

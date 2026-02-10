@@ -1,1 +1,45 @@
 @import "tailwindcss";
+
+:root {
+	--ec-bg: #282c34;
+	--ec-surface: #1f2329;
+	--ec-panel: #282c34;
+	--ec-border: #4f5666;
+	--ec-border-strong: #6f7a85;
+	--ec-text: #dcdccc;
+	--ec-text-strong: #f0efd0;
+	--ec-text-muted: #93a1a1;
+	--ec-text-subtle: #7f8c98;
+	--ec-link: #8fb28f;
+	--ec-danger: #e5786d;
+	--ec-danger-surface: #3b2b2b;
+	--ec-danger-border: #8a4d4d;
+	--ec-item-hover: #2a2f38;
+	--ec-item-active: #303641;
+}
+
+@media (prefers-color-scheme: light) {
+	:root {
+		--ec-bg: #f3f3eb;
+		--ec-surface: #fcfcf5;
+		--ec-panel: #f0f0e6;
+		--ec-border: #b8baa9;
+		--ec-border-strong: #8f927f;
+		--ec-text: #2e2f2a;
+		--ec-text-strong: #11120f;
+		--ec-text-muted: #5f665f;
+		--ec-text-subtle: #737a73;
+		--ec-link: #2f6f44;
+		--ec-danger: #a33a3a;
+		--ec-danger-surface: #f3e5e5;
+		--ec-danger-border: #cca1a1;
+		--ec-item-hover: #ececdf;
+		--ec-item-active: #e2e2d4;
+	}
+}
+
+html,
+body {
+	background-color: var(--ec-bg);
+	color: var(--ec-text);
+}
