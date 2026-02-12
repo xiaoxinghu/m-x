@@ -1,4 +1,4 @@
-;;; bar.el --- Floating M-x frame -*- lexical-binding: t; -*-
+;;; popup.el --- Floating M-x frame -*- lexical-binding: t; -*-
 
 (defun my/popup-command--frame-p (&optional frame)
   "Return non-nil if FRAME is a popup-command frame."
@@ -44,13 +44,25 @@
   (let* ((frame (if (my/popup-command--frame-p (selected-frame))
                     (selected-frame)
                   (my/popup-command--make-frame))))
+    ;; Activate Emacs application first (critical for cross-monitor focus)
+    (when (fboundp 'ns-do-applescript)
+      (ns-do-applescript "tell application \"Emacs\" to activate"))
+    ;; Raise frame and focus
+    (raise-frame frame)
+    (when (fboundp 'x-focus-frame)
+      (x-focus-frame frame))
     (select-frame-set-input-focus frame)
-    (with-selected-frame frame
-      (unwind-protect
-          (call-interactively command)
-        (when (and (frame-live-p frame)
-                   (my/popup-command--frame-p frame))
-          (delete-frame frame))))))
+    (select-window (minibuffer-window frame))
+    ;; Defer command to next event loop - allows focus to settle without blocking
+    (run-at-time 0 nil
+      (lambda ()
+        (when (frame-live-p frame)
+          (select-window (minibuffer-window frame))
+          (unwind-protect
+              (call-interactively command)
+            (when (and (frame-live-p frame)
+                       (my/popup-command--frame-p frame))
+              (delete-frame frame))))))))
 
 ;;;###autoload
 (defun my/popup-command (&optional command)
@@ -66,6 +78,6 @@ When COMMAND is nil, defaults to `execute-extended-command'."
 ;;;###autoload
 (defalias 'my/m-x #'my/popup-command)
 
-(provide 'bar)
+(provide 'popup)
 
-;;; bar.el ends here
+;;; popup.el ends here
