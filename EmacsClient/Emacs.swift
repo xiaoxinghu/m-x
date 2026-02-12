@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum EmacsCommand {
+enum EmacsCommand: Codable, Equatable {
 	case eval(String)
 	case open(URL)
 }

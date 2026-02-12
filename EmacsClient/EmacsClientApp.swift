@@ -34,6 +34,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		AppDelegate.shared = self
 	}
 
+	func applicationDidFinishLaunching(_ notification: Notification) {
+		// Initialize shortcut bindings manager to register all shortcuts
+		_ = ShortcutBindingsManager.shared
+	}
+
 	func application(_ application: NSApplication, open urls: [URL]) {
 		urls.forEach(handle)
 	}
@@ -47,8 +52,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 		if settingsWindow == nil {
 			let settingsView = SettingsView()
 			settingsWindow = NSWindow(
-				contentRect: NSRect(x: 0, y: 0, width: 500, height: 150),
-				styleMask: [.titled, .closable],
+				contentRect: NSRect(x: 0, y: 0, width: 600, height: 400),
+				styleMask: [.titled, .closable, .resizable],
 				backing: .buffered,
 				defer: false
 			)

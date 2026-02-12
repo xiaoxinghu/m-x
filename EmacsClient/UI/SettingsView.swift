@@ -9,13 +9,23 @@ import SwiftUI
 
 struct SettingsView: View {
 	@AppStorage("emacsclientPath") private var emacsclientPath = "emacsclient"
-	
+
 	var body: some View {
 		Form {
-			TextField("EmacsClient Path", text: $emacsclientPath)
-				.textFieldStyle(RoundedBorderTextFieldStyle())
+			Section {
+				TextField("EmacsClient Path", text: $emacsclientPath)
+					.textFieldStyle(RoundedBorderTextFieldStyle())
+			} header: {
+				Text("General")
+			}
+
+			Divider()
+
+			Section {
+				ShortcutBindingsListView()
+			}
 		}
-		.frame(maxWidth: 500)
+		.frame(minWidth: 550, minHeight: 200)
 		.padding()
 	}
 }
