@@ -64,16 +64,25 @@ jobs:
         run: |
           APP_PATH="build/Build/Products/Release/M-x.app"
 
+          # Debug: List available signing identities
+          echo "Available signing identities:"
+          security find-identity -v -p codesigning
+
+          echo "Using certificate: $MACOS_CERTIFICATE_NAME"
+
           # Sign all frameworks and dylibs first
           find "$APP_PATH" -name "*.framework" -o -name "*.dylib" | while read -r item; do
-            /usr/bin/codesign --force --options runtime --sign "$MACOS_CERTIFICATE_NAME" "$item" -v
+            /usr/bin/codesign --force --timestamp --options runtime --sign "$MACOS_CERTIFICATE_NAME" "$item" -v
           done
 
-          # Sign the main app bundle
-          /usr/bin/codesign --force --options runtime --sign "$MACOS_CERTIFICATE_NAME" "$APP_PATH" -v
+          # Sign the main app bundle with timestamp
+          /usr/bin/codesign --force --timestamp --options runtime --sign "$MACOS_CERTIFICATE_NAME" "$APP_PATH" -v
 
           # Verify signature
           /usr/bin/codesign --verify --verbose "$APP_PATH"
+
+          # Show signature details
+          codesign -dv --verbose=4 "$APP_PATH"
 
       - name: Notarize app
         env:
