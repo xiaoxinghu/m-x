@@ -23,7 +23,7 @@
   (let* ((params `((name . "my-m-x")
                    (minibuffer . only)
                    (width . 80)
-                   (height . 5)
+                   (height . 6)
                    (undecorated . t)
                    (unsplittable . t)
                    (no-other-frame . t)
@@ -54,15 +54,15 @@
     (select-frame-set-input-focus frame)
     (select-window (minibuffer-window frame))
     ;; Defer command to next event loop - allows focus to settle without blocking
-    (run-at-time 0 nil
-      (lambda ()
-        (when (frame-live-p frame)
-          (select-window (minibuffer-window frame))
-          (unwind-protect
-              (call-interactively command)
-            (when (and (frame-live-p frame)
-                       (my/popup-command--frame-p frame))
-              (delete-frame frame))))))))
+		(run-at-time 0 nil
+								 (lambda ()
+									 (when (frame-live-p frame)
+										 (select-window (minibuffer-window frame))
+										 (unwind-protect
+												 (call-interactively command)
+											 (when (and (frame-live-p frame)
+																	(my/popup-command--frame-p frame))
+												 (delete-frame frame))))))))
 
 ;;;###autoload
 (defun my/popup-command (&optional command)
