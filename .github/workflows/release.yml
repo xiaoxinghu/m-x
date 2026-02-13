@@ -1,0 +1,159 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-sign-notarize:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Build app
+        run: |
+          xcodebuild -project EmacsClient.xcodeproj \
+            -scheme EmacsClient \
+            -configuration Release \
+            -derivedDataPath build \
+            -arch arm64 -arch x86_64 \
+            ONLY_ACTIVE_ARCH=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Import certificate
+        env:
+          MACOS_CERTIFICATE: ${{ secrets.MACOS_CERTIFICATE }}
+          MACOS_CERTIFICATE_PWD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+          KEYCHAIN_PWD: ${{ secrets.KEYCHAIN_PWD }}
+        run: |
+          # Create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # Decode certificate
+          echo "$MACOS_CERTIFICATE" | base64 --decode > $CERTIFICATE_PATH
+
+          # Create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PWD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PWD" $KEYCHAIN_PATH
+
+          # Import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$MACOS_CERTIFICATE_PWD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PWD" $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+      - name: Codesign app
+        env:
+          MACOS_CERTIFICATE_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
+        run: |
+          APP_PATH="build/Build/Products/Release/EmacsClient+.app"
+
+          # Sign all frameworks and dylibs first
+          find "$APP_PATH" -name "*.framework" -o -name "*.dylib" | while read -r item; do
+            /usr/bin/codesign --force --options runtime --sign "$MACOS_CERTIFICATE_NAME" "$item" -v
+          done
+
+          # Sign the main app bundle
+          /usr/bin/codesign --force --options runtime --sign "$MACOS_CERTIFICATE_NAME" "$APP_PATH" -v
+
+          # Verify signature
+          /usr/bin/codesign --verify --verbose "$APP_PATH"
+
+      - name: Notarize app
+        env:
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+        run: |
+          APP_PATH="build/Build/Products/Release/EmacsClient+.app"
+          ZIP_PATH="$RUNNER_TEMP/EmacsClient+.zip"
+
+          # Create zip for notarization
+          ditto -c -k --keepParent "$APP_PATH" "$ZIP_PATH"
+
+          # Store credentials
+          xcrun notarytool store-credentials "notarytool-profile" \
+            --apple-id "$APPLE_ID" \
+            --team-id "$APPLE_TEAM_ID" \
+            --password "$APPLE_APP_SPECIFIC_PASSWORD"
+
+          # Submit for notarization and wait
+          xcrun notarytool submit "$ZIP_PATH" \
+            --keychain-profile "notarytool-profile" \
+            --wait
+
+          # Staple the notarization ticket
+          xcrun stapler staple "$APP_PATH"
+
+      - name: Create release zip
+        run: |
+          cd build/Build/Products/Release
+          ditto -c -k --keepParent "EmacsClient+.app" "EmacsClient+.app.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/Build/Products/Release/EmacsClient+.app.zip
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Calculate SHA256
+        id: sha256
+        run: |
+          SHA=$(shasum -a 256 build/Build/Products/Release/EmacsClient+.app.zip | awk '{print $1}')
+          echo "SHA256=$SHA" >> $GITHUB_OUTPUT
+
+      - name: Update Homebrew Cask
+        env:
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          SHA256="${{ steps.sha256.outputs.SHA256 }}"
+
+          # Clone the tap repo
+          git clone https://x-access-token:${HOMEBREW_TAP_TOKEN}@github.com/xiaoxinghu/homebrew-tools.git /tmp/tap
+          cd /tmp/tap
+
+          # Update the cask file
+          cat > Casks/emacsclient-plus.rb << EOF
+          cask "emacsclient-plus" do
+            version "$VERSION"
+            sha256 "$SHA256"
+
+            url "https://github.com/xiaoxinghu/emacsclient-plus/releases/download/v#{version}/EmacsClient+.app.zip"
+            name "EmacsClient+"
+            desc "Enhanced emacsclient for macOS"
+            homepage "https://github.com/xiaoxinghu/emacsclient-plus"
+
+            app "EmacsClient+.app"
+
+            zap trash: [
+              "~/Library/Preferences/dev.xiaoxing.EmacsClient.plist",
+              "~/Library/Application Support/EmacsClient+",
+            ]
+          end
+          EOF
+
+          # Commit and push
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add Casks/emacsclient-plus.rb
+          git commit -m "Update emacsclient-plus to v$VERSION"
+          git push
