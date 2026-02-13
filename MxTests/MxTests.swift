@@ -1,15 +1,15 @@
 //
-//  EmacsClientTests.swift
-//  EmacsClientTests
+//  MxTests.swift
+//  MxTests
 //
 //  Created by Xiaoxing Hu on 30/03/2025.
 //
 
 import Testing
-@testable import EmacsClient
+@testable import Mx
 import Foundation
 
-struct EmacsClientTests {
+struct MxTests {
 
     @Test func example() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.

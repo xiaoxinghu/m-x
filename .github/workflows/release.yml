@@ -24,8 +24,8 @@ jobs:
 
       - name: Build app
         run: |
-          xcodebuild -project EmacsClient.xcodeproj \
-            -scheme EmacsClient \
+          xcodebuild -project Mx.xcodeproj \
+            -scheme Mx \
             -configuration Release \
             -derivedDataPath build \
             -arch arm64 -arch x86_64 \
@@ -62,7 +62,7 @@ jobs:
         env:
           MACOS_CERTIFICATE_NAME: ${{ secrets.MACOS_CERTIFICATE_NAME }}
         run: |
-          APP_PATH="build/Build/Products/Release/EmacsClient+.app"
+          APP_PATH="build/Build/Products/Release/M-x.app"
 
           # Sign all frameworks and dylibs first
           find "$APP_PATH" -name "*.framework" -o -name "*.dylib" | while read -r item; do
@@ -81,8 +81,8 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
         run: |
-          APP_PATH="build/Build/Products/Release/EmacsClient+.app"
-          ZIP_PATH="$RUNNER_TEMP/EmacsClient+.zip"
+          APP_PATH="build/Build/Products/Release/M-x.app"
+          ZIP_PATH="$RUNNER_TEMP/M-x.zip"
 
           # Create zip for notarization
           ditto -c -k --keepParent "$APP_PATH" "$ZIP_PATH"
@@ -104,12 +104,12 @@ jobs:
       - name: Create release zip
         run: |
           cd build/Build/Products/Release
-          ditto -c -k --keepParent "EmacsClient+.app" "EmacsClient+.app.zip"
+          ditto -c -k --keepParent "M-x.app" "M-x.app.zip"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build/Build/Products/Release/EmacsClient+.app.zip
+          files: build/Build/Products/Release/M-x.app.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -117,7 +117,7 @@ jobs:
       - name: Calculate SHA256
         id: sha256
         run: |
-          SHA=$(shasum -a 256 build/Build/Products/Release/EmacsClient+.app.zip | awk '{print $1}')
+          SHA=$(shasum -a 256 build/Build/Products/Release/M-x.app.zip | awk '{print $1}')
           echo "SHA256=$SHA" >> $GITHUB_OUTPUT
 
       - name: Update Homebrew Cask
@@ -132,21 +132,21 @@ jobs:
           cd /tmp/tap
 
           # Update the cask file
-          cat > Casks/emacsclient-plus.rb << EOF
-          cask "emacsclient-plus" do
+          cat > Casks/m-x.rb << EOF
+          cask "m-x" do
             version "$VERSION"
             sha256 "$SHA256"
 
-            url "https://github.com/xiaoxinghu/emacsclient-plus/releases/download/v#{version}/EmacsClient+.app.zip"
-            name "EmacsClient+"
+            url "https://github.com/xiaoxinghu/m-x/releases/download/v#{version}/M-x.app.zip"
+            name "M-x"
             desc "Enhanced emacsclient for macOS"
-            homepage "https://github.com/xiaoxinghu/emacsclient-plus"
+            homepage "https://github.com/xiaoxinghu/m-x"
 
-            app "EmacsClient+.app"
+            app "M-x.app"
 
             zap trash: [
-              "~/Library/Preferences/dev.xiaoxing.EmacsClient.plist",
-              "~/Library/Application Support/EmacsClient+",
+              "~/Library/Preferences/dev.xiaoxing.m-x.plist",
+              "~/Library/Application Support/M-x",
             ]
           end
           EOF
@@ -154,6 +154,6 @@ jobs:
           # Commit and push
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git add Casks/emacsclient-plus.rb
-          git commit -m "Update emacsclient-plus to v$VERSION"
+          git add Casks/m-x.rb
+          git commit -m "Update m-x to v$VERSION"
           git push

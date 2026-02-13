@@ -64,7 +64,7 @@ function App() {
 		<div class="mx-auto grid max-w-[900px] gap-4 bg-[var(--ec-bg)] px-5 pb-8 pt-7 text-[var(--ec-text)] [font-family:'Iosevka','JetBrains_Mono','SF_Mono',Menlo,Monaco,Consolas,'Liberation_Mono',monospace]">
 			<header class='flex items-start justify-between gap-4'>
 				<div>
-					<h1 class='mb-2 text-2xl font-medium'>EmacsClient Actions</h1>
+					<h1 class='mb-2 text-2xl font-medium'>M-x Actions</h1>
 					<p class='text-[var(--ec-text-muted)]'>
 						Manage actions available in the command palette popup.
 					</p>

@@ -16,50 +16,50 @@
 			containerPortal = 03894A0D2D98A66A0004552C /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 03894A142D98A66A0004552C;
-			remoteInfo = EmacsClient;
+			remoteInfo = Mx;
 		};
 		03894A312D98A66B0004552C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 03894A0D2D98A66A0004552C /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 03894A142D98A66A0004552C;
-			remoteInfo = EmacsClient;
+			remoteInfo = Mx;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03894A152D98A66A0004552C /* EmacsClient+.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "EmacsClient+.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		03894A262D98A66B0004552C /* EmacsClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmacsClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		03894A302D98A66B0004552C /* EmacsClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmacsClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		03894A152D98A66A0004552C /* M-x.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "M-x.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		03894A262D98A66B0004552C /* MxTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MxTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		03894A302D98A66B0004552C /* MxUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MxUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		03894A442D98A72F0004552C /* Exceptions for "EmacsClient" folder in "EmacsClient" target */ = {
+		03894A442D98A72F0004552C /* Exceptions for "Mx" folder in "Mx" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 03894A142D98A66A0004552C /* EmacsClient */;
+			target = 03894A142D98A66A0004552C /* Mx */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		03894A172D98A66A0004552C /* EmacsClient */ = {
+		03894A172D98A66A0004552C /* Mx */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				03894A442D98A72F0004552C /* Exceptions for "EmacsClient" folder in "EmacsClient" target */,
+				03894A442D98A72F0004552C /* Exceptions for "Mx" folder in "Mx" target */,
 			);
-			path = EmacsClient;
+			path = Mx;
 			sourceTree = "<group>";
 		};
-		03894A292D98A66B0004552C /* EmacsClientTests */ = {
+		03894A292D98A66B0004552C /* MxTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = EmacsClientTests;
+			path = MxTests;
 			sourceTree = "<group>";
 		};
-		03894A332D98A66B0004552C /* EmacsClientUITests */ = {
+		03894A332D98A66B0004552C /* MxUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = EmacsClientUITests;
+			path = MxUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -93,9 +93,9 @@
 		03894A0C2D98A66A0004552C = {
 			isa = PBXGroup;
 			children = (
-				03894A172D98A66A0004552C /* EmacsClient */,
-				03894A292D98A66B0004552C /* EmacsClientTests */,
-				03894A332D98A66B0004552C /* EmacsClientUITests */,
+				03894A172D98A66A0004552C /* Mx */,
+				03894A292D98A66B0004552C /* MxTests */,
+				03894A332D98A66B0004552C /* MxUITests */,
 				03894A162D98A66A0004552C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -103,9 +103,9 @@
 		03894A162D98A66A0004552C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				03894A152D98A66A0004552C /* EmacsClient+.app */,
-				03894A262D98A66B0004552C /* EmacsClientTests.xctest */,
-				03894A302D98A66B0004552C /* EmacsClientUITests.xctest */,
+				03894A152D98A66A0004552C /* M-x.app */,
+				03894A262D98A66B0004552C /* MxTests.xctest */,
+				03894A302D98A66B0004552C /* MxUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -113,9 +113,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		03894A142D98A66A0004552C /* EmacsClient */ = {
+		03894A142D98A66A0004552C /* Mx */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 03894A3A2D98A66B0004552C /* Build configuration list for PBXNativeTarget "EmacsClient" */;
+			buildConfigurationList = 03894A3A2D98A66B0004552C /* Build configuration list for PBXNativeTarget "Mx" */;
 			buildPhases = (
 				03894A112D98A66A0004552C /* Sources */,
 				03894A122D98A66A0004552C /* Frameworks */,
@@ -126,19 +126,19 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				03894A172D98A66A0004552C /* EmacsClient */,
+				03894A172D98A66A0004552C /* Mx */,
 			);
-			name = EmacsClient;
+			name = Mx;
 			packageProductDependencies = (
 				03894A512DADD0000004552C /* KeyboardShortcuts */,
 			);
-			productName = EmacsClient;
-			productReference = 03894A152D98A66A0004552C /* EmacsClient+.app */;
+			productName = Mx;
+			productReference = 03894A152D98A66A0004552C /* M-x.app */;
 			productType = "com.apple.product-type.application";
 		};
-		03894A252D98A66B0004552C /* EmacsClientTests */ = {
+		03894A252D98A66B0004552C /* MxTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 03894A3D2D98A66B0004552C /* Build configuration list for PBXNativeTarget "EmacsClientTests" */;
+			buildConfigurationList = 03894A3D2D98A66B0004552C /* Build configuration list for PBXNativeTarget "MxTests" */;
 			buildPhases = (
 				03894A222D98A66B0004552C /* Sources */,
 				03894A232D98A66B0004552C /* Frameworks */,
@@ -150,18 +150,18 @@
 				03894A282D98A66B0004552C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				03894A292D98A66B0004552C /* EmacsClientTests */,
+				03894A292D98A66B0004552C /* MxTests */,
 			);
-			name = EmacsClientTests;
+			name = MxTests;
 			packageProductDependencies = (
 			);
-			productName = EmacsClientTests;
-			productReference = 03894A262D98A66B0004552C /* EmacsClientTests.xctest */;
+			productName = MxTests;
+			productReference = 03894A262D98A66B0004552C /* MxTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		03894A2F2D98A66B0004552C /* EmacsClientUITests */ = {
+		03894A2F2D98A66B0004552C /* MxUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 03894A402D98A66B0004552C /* Build configuration list for PBXNativeTarget "EmacsClientUITests" */;
+			buildConfigurationList = 03894A402D98A66B0004552C /* Build configuration list for PBXNativeTarget "MxUITests" */;
 			buildPhases = (
 				03894A2C2D98A66B0004552C /* Sources */,
 				03894A2D2D98A66B0004552C /* Frameworks */,
@@ -173,13 +173,13 @@
 				03894A322D98A66B0004552C /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				03894A332D98A66B0004552C /* EmacsClientUITests */,
+				03894A332D98A66B0004552C /* MxUITests */,
 			);
-			name = EmacsClientUITests;
+			name = MxUITests;
 			packageProductDependencies = (
 			);
-			productName = EmacsClientUITests;
-			productReference = 03894A302D98A66B0004552C /* EmacsClientUITests.xctest */;
+			productName = MxUITests;
+			productReference = 03894A302D98A66B0004552C /* MxUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -205,7 +205,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 03894A102D98A66A0004552C /* Build configuration list for PBXProject "EmacsClient" */;
+			buildConfigurationList = 03894A102D98A66A0004552C /* Build configuration list for PBXProject "Mx" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -222,9 +222,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				03894A142D98A66A0004552C /* EmacsClient */,
-				03894A252D98A66B0004552C /* EmacsClientTests */,
-				03894A2F2D98A66B0004552C /* EmacsClientUITests */,
+				03894A142D98A66A0004552C /* Mx */,
+				03894A252D98A66B0004552C /* MxTests */,
+				03894A2F2D98A66B0004552C /* MxUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -280,12 +280,12 @@
 /* Begin PBXTargetDependency section */
 		03894A282D98A66B0004552C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 03894A142D98A66A0004552C /* EmacsClient */;
+			target = 03894A142D98A66A0004552C /* Mx */;
 			targetProxy = 03894A272D98A66B0004552C /* PBXContainerItemProxy */;
 		};
 		03894A322D98A66B0004552C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 03894A142D98A66A0004552C /* EmacsClient */;
+			target = 03894A142D98A66A0004552C /* Mx */;
 			targetProxy = 03894A312D98A66B0004552C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -414,17 +414,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = EmacsClient/EmacsClient.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Mx/Mx.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"EmacsClient/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Mx/Preview Content\"";
 				DEVELOPMENT_TEAM = 3NQDL3JPMA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = EmacsClient/Info.plist;
+				INFOPLIST_FILE = Mx/Info.plist;
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -432,8 +432,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.xiaoxing.EmacsClient;
-				PRODUCT_NAME = "EmacsClient+";
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.xiaoxing.m-x";
+				PRODUCT_NAME = "M-x";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -444,17 +444,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = EmacsClient/EmacsClient.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Mx/Mx.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"EmacsClient/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Mx/Preview Content\"";
 				DEVELOPMENT_TEAM = 3NQDL3JPMA;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = EmacsClient/Info.plist;
+				INFOPLIST_FILE = Mx/Info.plist;
 				INFOPLIST_KEY_LSUIElement = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -462,8 +462,8 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.xiaoxing.EmacsClient;
-				PRODUCT_NAME = "EmacsClient+";
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.xiaoxing.m-x";
+				PRODUCT_NAME = "M-x";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -479,11 +479,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.xiaoxing.EmacsClientTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.xiaoxing.m-x-tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EmacsClient+.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EmacsClient+";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/M-x.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/M-x";
 			};
 			name = Debug;
 		};
@@ -497,11 +497,11 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.xiaoxing.EmacsClientTests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.xiaoxing.m-x-tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EmacsClient+.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EmacsClient+";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/M-x.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/M-x";
 			};
 			name = Release;
 		};
@@ -513,11 +513,11 @@
 				DEVELOPMENT_TEAM = 3NQDL3JPMA;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.xiaoxing.EmacsClientUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.xiaoxing.m-x-uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = EmacsClient;
+				TEST_TARGET_NAME = Mx;
 			};
 			name = Debug;
 		};
@@ -529,18 +529,18 @@
 				DEVELOPMENT_TEAM = 3NQDL3JPMA;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.xiaoxing.EmacsClientUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.xiaoxing.m-x-uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = EmacsClient;
+				TEST_TARGET_NAME = Mx;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		03894A102D98A66A0004552C /* Build configuration list for PBXProject "EmacsClient" */ = {
+		03894A102D98A66A0004552C /* Build configuration list for PBXProject "Mx" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				03894A382D98A66B0004552C /* Debug */,
@@ -549,7 +549,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		03894A3A2D98A66B0004552C /* Build configuration list for PBXNativeTarget "EmacsClient" */ = {
+		03894A3A2D98A66B0004552C /* Build configuration list for PBXNativeTarget "Mx" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				03894A3B2D98A66B0004552C /* Debug */,
@@ -558,7 +558,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		03894A3D2D98A66B0004552C /* Build configuration list for PBXNativeTarget "EmacsClientTests" */ = {
+		03894A3D2D98A66B0004552C /* Build configuration list for PBXNativeTarget "MxTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				03894A3E2D98A66B0004552C /* Debug */,
@@ -567,7 +567,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		03894A402D98A66B0004552C /* Build configuration list for PBXNativeTarget "EmacsClientUITests" */ = {
+		03894A402D98A66B0004552C /* Build configuration list for PBXNativeTarget "MxUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				03894A412D98A66B0004552C /* Debug */,

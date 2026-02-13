@@ -1,6 +1,6 @@
 //
 //  ShortcutBindingsListView.swift
-//  EmacsClient
+//  Mx
 //
 //  Created by Claude on 2026-02-13.
 //

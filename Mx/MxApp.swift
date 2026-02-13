@@ -1,6 +1,6 @@
 //
-//  EmacsClientApp.swift
-//  EmacsClient
+//  MxApp.swift
+//  Mx
 //
 //  Created by Xiaoxing Hu on 30/03/2025.
 //
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct EmacsClientApp: App {
+struct MxApp: App {
 
 	@NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
@@ -20,7 +20,7 @@ struct EmacsClientApp: App {
 		MenuBarExtra {
 			MenuView()
 		} label: {
-			Label("EmacsClient+", systemImage: "text.page.fill")
+			Label("M-x", systemImage: "text.page.fill")
 		}
 	}
 }
@@ -57,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 				backing: .buffered,
 				defer: false
 			)
-			settingsWindow?.title = "EmacsClient+ Settings"
+			settingsWindow?.title = "M-x Settings"
 			settingsWindow?.contentView = NSHostingView(rootView: settingsView)
 			settingsWindow?.center()
 			settingsWindow?.isReleasedWhenClosed = false

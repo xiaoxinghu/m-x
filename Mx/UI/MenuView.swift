@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  EmacsClient
+//  Mx
 //
 //  Created by Xiaoxing Hu on 30/03/2025.
 //

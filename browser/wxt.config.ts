@@ -22,7 +22,7 @@ export default defineConfig({
 				},
 			},
 		},
-		name: 'EmacsClient',
+		name: 'M-x',
 		description: 'Trigger Emacs actions from a popup command palette',
 	},
 })

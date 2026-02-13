@@ -1,13 +1,13 @@
 //
-//  EmacsClientUITestsLaunchTests.swift
-//  EmacsClientUITests
+//  MxUITestsLaunchTests.swift
+//  MxUITests
 //
 //  Created by Xiaoxing Hu on 30/03/2025.
 //
 
 import XCTest
 
-final class EmacsClientUITestsLaunchTests: XCTestCase {
+final class MxUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

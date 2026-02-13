@@ -1,6 +1,6 @@
 //
 //  Emacs.swift
-//  EmacsClient
+//  Mx
 //
 //  Created by Xiaoxing Hu on 07/04/2025.
 //

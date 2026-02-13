@@ -8,7 +8,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>dev.xiaoxing.EmacsClient</string>
+			<string>dev.xiaoxing.m-x</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>emacs</string>
@@ -18,7 +18,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>dev.xiaoxing.EmacsClient</string>
+			<string>dev.xiaoxing.m-x</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>org-protocol</string>
@@ -26,6 +26,6 @@
 		</dict>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>EmacsClient+</string>
+	<string>M-x</string>
 </dict>
 </plist>
