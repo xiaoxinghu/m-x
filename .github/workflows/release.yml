@@ -94,9 +94,26 @@ jobs:
             --password "$APPLE_APP_SPECIFIC_PASSWORD"
 
           # Submit for notarization and wait
-          xcrun notarytool submit "$ZIP_PATH" \
+          SUBMISSION_OUTPUT=$(xcrun notarytool submit "$ZIP_PATH" \
             --keychain-profile "notarytool-profile" \
-            --wait
+            --wait 2>&1) || true
+
+          echo "$SUBMISSION_OUTPUT"
+
+          # Extract submission ID and check status
+          SUBMISSION_ID=$(echo "$SUBMISSION_OUTPUT" | grep "id:" | head -1 | awk '{print $2}')
+
+          if echo "$SUBMISSION_OUTPUT" | grep -q "status: Invalid"; then
+            echo "❌ Notarization failed. Fetching detailed log..."
+            xcrun notarytool log "$SUBMISSION_ID" --keychain-profile "notarytool-profile"
+            exit 1
+          fi
+
+          if ! echo "$SUBMISSION_OUTPUT" | grep -q "status: Accepted"; then
+            echo "❌ Unexpected notarization status"
+            xcrun notarytool log "$SUBMISSION_ID" --keychain-profile "notarytool-profile" || true
+            exit 1
+          fi
 
           # Staple the notarization ticket
           xcrun stapler staple "$APP_PATH"
