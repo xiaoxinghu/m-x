@@ -6,22 +6,31 @@
 //
 
 import Foundation
+import AppKit
 
 func execute(_ command: String) throws -> Void {
-	print("exe \(command)")
 	let process = Process()
-	let pipe = Pipe()
+	let outputPipe = Pipe()
+	let errorPipe = Pipe()
 	
 	process.launchPath = "/bin/zsh"
 	process.arguments = ["-c", command]
-	process.standardOutput = pipe
+	process.standardOutput = outputPipe
+	process.standardError = errorPipe
 	
 	try process.run()
 	process.waitUntilExit()
 	
-	let data = pipe.fileHandleForReading.readDataToEndOfFile()
-	guard let output = String(data: data, encoding: .utf8) else { return }
-	print(output)
+	let outputData = outputPipe.fileHandleForReading.readDataToEndOfFile()
+	let errorData = errorPipe.fileHandleForReading.readDataToEndOfFile()
+	
+	if let output = String(data: outputData, encoding: .utf8), !output.isEmpty {
+		print(output)
+	}
+	
+	if let errorOutput = String(data: errorData, encoding: .utf8), !errorOutput.isEmpty {
+		showErrorAlert(message: errorOutput, command: command)
+	}
 }
 
 
@@ -59,3 +68,20 @@ func parse(path: String) -> URL? {
 func escape(expr: String) -> String {
 	return expr.replacingOccurrences(of: "\"", with: "\\\"")
 }
+func showErrorAlert(message: String, command: String) {
+	DispatchQueue.main.async {
+		let alert = NSAlert()
+		alert.messageText = "Command Execution Failed"
+		alert.informativeText = message
+		alert.alertStyle = .warning
+		alert.addButton(withTitle: "OK")
+		alert.addButton(withTitle: "Copy Command")
+		
+		let response = alert.runModal()
+		if response == .alertSecondButtonReturn {
+			NSPasteboard.general.clearContents()
+			NSPasteboard.general.setString(command, forType: .string)
+		}
+	}
+}
+
