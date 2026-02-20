@@ -1,0 +1,48 @@
+#+title: M-x
+#+author: Xiaoxing Hu
+
+A minimal macOS app that bridges macOS and Emacs via the =emacs://= URL scheme.
+
+Named after the Emacs command launcher, M-x lets you invoke Emacs from anywhere on your system — keyboard shortcuts, browser, other apps — using =emacsclient= under the hood.
+
+* Install
+
+#+begin_src sh
+brew tap xiaoxinghu/tools
+brew install --cask m-x
+#+end_src
+
+* How it works
+
+M-x registers the =emacs://= URL scheme and two actions:
+
+- =emacs://open?path=/some/file= — open a file in Emacs
+- =emacs://eval?expr=(some-elisp)= — evaluate an Elisp expression
+
+When triggered, M-x injects mouse position into a =mx--context= plist before passing the expression to =emacsclient=:
+
+#+begin_src elisp
+(let ((mx--context '(:mouse-x 1200 :mouse-y 800)))
+  (your-expression))
+#+end_src
+
+This lets your Elisp know which monitor the user is on — useful for placing popup frames correctly.
+
+* Components
+
+** macOS app
+Menu bar app (SwiftUI). Handles URL scheme callbacks and global keyboard shortcuts. Configure via the settings window: set your =emacsclient= path and bind keyboard shortcuts to Elisp expressions.
+
+** Browser extension (WIP)
+A command palette popup (=Cmd+Shift+E=) that runs saved Elisp actions from Chrome. Manage actions via the extension's options page.
+
+** =present.el=
+An Elisp helper for creating popup frames centered on the correct monitor:
+
+#+begin_src elisp
+(present (call-interactively #'find-file))
+#+end_src
+
+* org-protocol
+
+M-x also handles =org-protocol://= URLs, enabling capture from the browser with [[https://orgmode.org/worg/org-contrib/org-protocol.html][org-protocol]].
