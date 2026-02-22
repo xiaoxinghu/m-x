@@ -20,7 +20,7 @@ struct MxApp: App {
 		MenuBarExtra {
 			MenuView()
 		} label: {
-			Label("M-x", systemImage: "text.page.fill")
+			Image("MenuBarIcon")
 		}
 	}
 }

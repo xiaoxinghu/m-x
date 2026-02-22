@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18">
+  <rect x="1" y="1" width="16" height="16" rx="3.5"
+        fill="none" stroke="black" stroke-width="1.5"/>
+  <text x="7.5" y="12.5"
+        font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="7" font-weight="bold"
+        text-anchor="middle"
+        fill="black"
+        stroke="black" stroke-width="0.4" stroke-linejoin="round">M-x</text>
+</svg>
