@@ -31,8 +31,10 @@ Expected keys include :mouse-x and :mouse-y.")
           (setq target attrs))))
     (alist-get 'workarea (or target (car (display-monitor-attributes-list))))))
 
-(defun present--center-frame (frame)
-  "Center FRAME on the monitor that contains the mouse cursor."
+(defun present--position-frame (frame position)
+  "Position FRAME on the monitor that contains the mouse cursor.
+POSITION is one of the symbols: center, left-top, left-bottom,
+right-top, right-bottom."
   (let* ((mouse (present--mouse-position))
          (workarea (present--workarea-at-point (car mouse) (cdr mouse)))
          (area-x (nth 0 workarea))
@@ -41,39 +43,62 @@ Expected keys include :mouse-x and :mouse-y.")
          (area-h (nth 3 workarea))
          (frame-w (frame-pixel-width frame))
          (frame-h (frame-pixel-height frame))
-         (left (+ area-x (max 0 (/ (- area-w frame-w) 2))))
-         (top (+ area-y (max 0 (/ (- area-h frame-h) 2)))))
+         (gap 20)
+         (left (pcase position
+                 ((or 'left-top 'left-bottom)
+                  (+ area-x gap))
+                 ((or 'right-top 'right-bottom)
+                  (+ area-x (- area-w frame-w gap)))
+                 (_
+                  (+ area-x (max 0 (/ (- area-w frame-w) 2))))))
+         (top  (pcase position
+                 ((or 'left-top 'right-top)
+                  (+ area-y gap))
+                 ((or 'left-bottom 'right-bottom)
+                  (+ area-y (- area-h frame-h gap)))
+                 (_
+                  (+ area-y (max 0 (/ (- area-h frame-h) 2)))))))
     (set-frame-position frame left top)))
 
 (defmacro present (&rest body)
-  "Create a buffer with BUFFER-NAME and eval BODY in a basic frame."
+  "Create a buffer and eval BODY in a basic frame.
+BODY may optionally begin with a position symbol controlling where the
+frame appears on the monitor that contains the mouse cursor.  Valid
+positions are: center (default), left-top, left-bottom, right-top,
+right-bottom."
   (declare (indent 1) (debug t))
-  `(let* ((buffer (get-buffer-create (generate-new-buffer-name "*present*")))
-          (frame (make-frame '((auto-raise . t)
-                               (font . "Menlo 15")
-                               (height . 10)
-                               (width . 110)
-                               (internal-border-width . 20)
-                               (left-fringe . 0)
-                               (line-spacing . 3)
-                               (menu-bar-lines . 0)
-                               (minibuffer . only)
-                               (right-fringe . 0)
-                               (tool-bar-lines . 0)
-                               (undecorated . t)
-                               (unsplittable . t)
-                               (vertical-scroll-bars . nil)))))
-     (set-face-attribute 'ivy-current-match frame
-                         :background "#2a2a2a"
-                         :foreground 'unspecified)
-     (select-frame frame)
-     (select-frame-set-input-focus frame)
-     (present--center-frame frame)
-     (with-current-buffer buffer
-       (condition-case nil
-           (unwind-protect
-               ,@body
-             (delete-frame frame)
-             (kill-buffer buffer))
-         (quit (delete-frame frame)
-               (kill-buffer buffer))))))
+  (let* ((position (if (memq (car body)
+                             '(center left-top left-bottom right-top right-bottom))
+                       (prog1 (car body) (setq body (cdr body)))
+                     'center)))
+    `(let* ((buffer (get-buffer-create (generate-new-buffer-name "*present*")))
+            (frame (make-frame '((auto-raise . t)
+                                 (font . "Menlo 15")
+                                 (height . 10)
+                                 (width . 110)
+                                 (internal-border-width . 20)
+                                 (left-fringe . 0)
+                                 (line-spacing . 3)
+                                 (menu-bar-lines . 0)
+                                 (minibuffer . only)
+                                 (right-fringe . 0)
+                                 (tool-bar-lines . 0)
+                                 (undecorated . t)
+                                 (unsplittable . t)
+                                 (vertical-scroll-bars . nil)))))
+       (set-face-attribute 'ivy-current-match frame
+                           :background "#2a2a2a"
+                           :foreground 'unspecified)
+       (select-frame frame)
+       (select-frame-set-input-focus frame)
+       (present--position-frame frame ',position)
+       (with-current-buffer buffer
+         (condition-case nil
+             (unwind-protect
+                 ,@body
+               (delete-frame frame)
+               (kill-buffer buffer))
+           (quit (delete-frame frame)
+                 (kill-buffer buffer)))))))
+
+(provide 'present)
