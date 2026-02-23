@@ -92,13 +92,25 @@ right-bottom."
        (select-frame frame)
        (select-frame-set-input-focus frame)
        (present--position-frame frame ',position)
+       (letrec ((focus-watcher
+                 (lambda ()
+                   (when (and (frame-live-p frame)
+                              (not (frame-focus-state frame)))
+                     (remove-function after-focus-change-function focus-watcher)
+                     (run-with-timer 0 nil
+                       (lambda ()
+                         (when (frame-live-p frame)
+                           (with-selected-frame frame
+                             (abort-recursive-edit)))))))))
+         (add-function :after after-focus-change-function focus-watcher))
        (with-current-buffer buffer
          (condition-case nil
              (unwind-protect
                  ,@body
-               (delete-frame frame)
-               (kill-buffer buffer))
-           (quit (delete-frame frame)
-                 (kill-buffer buffer)))))))
+               (when (frame-live-p frame) (delete-frame frame))
+               (when (buffer-live-p buffer) (kill-buffer buffer)))
+           (quit
+            (when (frame-live-p frame) (delete-frame frame))
+            (when (buffer-live-p buffer) (kill-buffer buffer))))))))
 
 (provide 'present)
