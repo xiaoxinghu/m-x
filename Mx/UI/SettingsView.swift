@@ -1,5 +1,5 @@
 //
-//  Config.swift
+//  SettingsView.swift
 //  Mx
 //
 //  Created by Xiaoxing Hu on 30/03/2025.
@@ -11,15 +11,13 @@ import ServiceManagement
 struct SettingsView: View {
 	@AppStorage("emacsclientPath") private var emacsclientPath = "emacsclient"
 	@State private var launchAtLogin = (SMAppService.mainApp.status == .enabled)
+	@ObservedObject private var manager = ShortcutBindingsManager.shared
 
 	var body: some View {
 		Form {
-			Section {
-				VStack(alignment: .leading, spacing: 4) {
-					Text("EmacsClient Path")
-						.font(.callout)
+			Section("General") {
+				LabeledContent("EmacsClient Path") {
 					TextField("", text: $emacsclientPath)
-						.textFieldStyle(RoundedBorderTextFieldStyle())
 				}
 				Toggle("Start on Login", isOn: $launchAtLogin)
 					.onChange(of: launchAtLogin) { _, enabled in
@@ -33,18 +31,42 @@ struct SettingsView: View {
 							launchAtLogin = (SMAppService.mainApp.status == .enabled)
 						}
 					}
-			} header: {
-				Text("General")
 			}
 
-			Divider()
+			Section("Keyboard Shortcuts") {
+				if !manager.doubleTapPermissionGranted {
+					Label {
+						Text("Input Monitoring permission required for double-tap shortcuts. Enable it in System Settings → Privacy & Security → Input Monitoring.")
+					} icon: {
+						Image(systemName: "exclamationmark.triangle.fill")
+							.foregroundStyle(.orange)
+					}
+					.foregroundStyle(.secondary)
+				}
 
-			Section {
-				ShortcutBindingsListView()
+				ForEach(manager.bindings) { entry in
+					ShortcutRowView(
+						entry: entry,
+						command: SwiftUI.Binding(
+							get: { manager.bindings.first(where: { $0.id == entry.id })?.command ?? .eval("") },
+							set: { manager.updateCommand(id: entry.id, command: $0) }
+						),
+						availableModifiers: manager.availableDoubleTapModifiers,
+						onTriggerChange: { manager.updateTrigger(id: entry.id, to: $0) },
+						onDelete: { manager.removeBinding(id: entry.id) }
+					)
+				}
+
+				Button {
+					manager.addBinding()
+				} label: {
+					Label("Add Shortcut", systemImage: "plus")
+				}
+				.buttonStyle(.borderless)
 			}
 		}
-		.frame(minWidth: 700, minHeight: 200)
-		.padding()
+		.formStyle(.grouped)
+		.frame(minWidth: 640, minHeight: 400)
 	}
 }
 

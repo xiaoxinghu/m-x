@@ -85,6 +85,7 @@ struct ShortcutRowView: View {
 			// Command value
 			TextField("", text: $textValue)
 				.textFieldStyle(RoundedBorderTextFieldStyle())
+				.frame(maxWidth: .infinity)
 				.onChange(of: textValue) { _, _ in updateCommand() }
 
 			Button(action: onDelete) { Image(systemName: "trash") }
