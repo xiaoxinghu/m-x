@@ -15,8 +15,12 @@ struct SettingsView: View {
 	var body: some View {
 		Form {
 			Section {
-				TextField("EmacsClient Path", text: $emacsclientPath)
-					.textFieldStyle(RoundedBorderTextFieldStyle())
+				VStack(alignment: .leading, spacing: 4) {
+					Text("EmacsClient Path")
+						.font(.callout)
+					TextField("", text: $emacsclientPath)
+						.textFieldStyle(RoundedBorderTextFieldStyle())
+				}
 				Toggle("Start on Login", isOn: $launchAtLogin)
 					.onChange(of: launchAtLogin) { _, enabled in
 						do {
@@ -39,7 +43,7 @@ struct SettingsView: View {
 				ShortcutBindingsListView()
 			}
 		}
-		.frame(minWidth: 550, minHeight: 200)
+		.frame(minWidth: 700, minHeight: 200)
 		.padding()
 	}
 }

@@ -10,19 +10,20 @@ import SwiftUI
 struct ShortcutBindingsListView: View {
 	@ObservedObject var manager = ShortcutBindingsManager.shared
 
-	var sortedBindings: [(id: String, command: EmacsCommand)] {
-		manager.bindings.map { ($0.key, $0.value) }.sorted { $0.id < $1.id }
-	}
-
 	var body: some View {
 		VStack(alignment: .leading, spacing: 12) {
 			HStack {
 				Text("Keyboard Shortcuts")
 					.font(.headline)
 				Spacer()
-				Button(action: { _ = manager.addBinding() }) {
+				Button(action: { manager.addBinding() }) {
 					Image(systemName: "plus")
 				}
+			}
+
+			if !manager.doubleTapPermissionGranted {
+				Text("Input Monitoring permission required for double-tap shortcuts. Enable it in System Settings → Privacy & Security → Input Monitoring.")
+					.foregroundColor(.secondary)
 			}
 
 			if manager.bindings.isEmpty {
@@ -30,15 +31,22 @@ struct ShortcutBindingsListView: View {
 					.foregroundColor(.secondary)
 					.padding(.vertical)
 			} else {
-				ForEach(sortedBindings, id: \.id) { binding in
-					ShortcutRowView(
-						id: binding.id,
-						command: Binding(
-							get: { manager.bindings[binding.id] ?? .eval("") },
-							set: { manager.updateBinding(id: binding.id, command: $0) }
-						),
-						onDelete: { manager.removeBinding(id: binding.id) }
-					)
+				ScrollView {
+					VStack(spacing: 12) {
+						ForEach(manager.bindings) { entry in
+							ShortcutRowView(
+								entry: entry,
+								command: SwiftUI.Binding(
+									get: { manager.bindings.first(where: { $0.id == entry.id })?.command ?? .eval("") },
+									set: { manager.updateCommand(id: entry.id, command: $0) }
+								),
+								availableModifiers: manager.availableDoubleTapModifiers,
+								onTriggerChange: { manager.updateTrigger(id: entry.id, to: $0) },
+								onDelete: { manager.removeBinding(id: entry.id) }
+							)
+						}
+					}
+					.padding(.trailing, 12)
 				}
 			}
 		}

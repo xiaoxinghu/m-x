@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 
 	func applicationDidFinishLaunching(_ notification: Notification) {
-		// Initialize shortcut bindings manager to register all shortcuts
+		// Initialize manager to register all shortcuts and event taps
 		_ = ShortcutBindingsManager.shared
 	}
 
