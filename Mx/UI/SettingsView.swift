@@ -6,15 +6,29 @@
 //
 
 import SwiftUI
+import ServiceManagement
 
 struct SettingsView: View {
 	@AppStorage("emacsclientPath") private var emacsclientPath = "emacsclient"
+	@State private var launchAtLogin = (SMAppService.mainApp.status == .enabled)
 
 	var body: some View {
 		Form {
 			Section {
 				TextField("EmacsClient Path", text: $emacsclientPath)
 					.textFieldStyle(RoundedBorderTextFieldStyle())
+				Toggle("Start on Login", isOn: $launchAtLogin)
+					.onChange(of: launchAtLogin) { _, enabled in
+						do {
+							if enabled {
+								try SMAppService.mainApp.register()
+							} else {
+								try SMAppService.mainApp.unregister()
+							}
+						} catch {
+							launchAtLogin = (SMAppService.mainApp.status == .enabled)
+						}
+					}
 			} header: {
 				Text("General")
 			}
