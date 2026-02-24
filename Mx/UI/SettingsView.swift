@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ServiceManagement
+import KeyboardShortcuts
 
 struct SettingsView: View {
 	@AppStorage("emacsclientPath") private var emacsclientPath = "emacsclient"
@@ -34,6 +35,10 @@ struct SettingsView: View {
 			}
 
 			Section("Keyboard Shortcuts") {
+				LabeledContent("Activate Emacs.app") {
+					KeyboardShortcuts.Recorder(for: .activateEmacsApp)
+				}
+
 				if !manager.doubleTapPermissionGranted {
 					Label {
 						Text("Input Monitoring permission required for double-tap shortcuts. Enable it in System Settings → Privacy & Security → Input Monitoring.")

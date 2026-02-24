@@ -9,6 +9,10 @@ import Foundation
 import CoreGraphics
 import KeyboardShortcuts
 
+extension KeyboardShortcuts.Name {
+	static let activateEmacsApp = Self("activateEmacsApp")
+}
+
 // MARK: - DoubleTapModifier
 
 enum DoubleTapModifier: String, Codable, CaseIterable, Identifiable, Hashable {
@@ -79,6 +83,7 @@ class ShortcutBindingsManager: ObservableObject {
 
 	init() {
 		loadBindings()
+		registerAppLevelShortcuts()
 		registerAllShortcuts()
 		setupEventTap()
 	}
@@ -160,6 +165,12 @@ class ShortcutBindingsManager: ObservableObject {
 	func registerAllShortcuts() {
 		for entry in bindings where entry.trigger == .combo {
 			registerShortcut(for: entry.id)
+		}
+	}
+
+	private func registerAppLevelShortcuts() {
+		KeyboardShortcuts.onKeyUp(for: .activateEmacsApp) {
+			activateEmacsApp()
 		}
 	}
 

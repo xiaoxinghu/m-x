@@ -13,6 +13,8 @@ enum EmacsCommand: Codable, Equatable {
 	case open(URL)
 }
 
+private let emacsAppURL = URL(fileURLWithPath: "/Applications/Emacs.app")
+
 /// Get the current mouse cursor position via NSEvent.
 /// Converts from Cocoa coordinates (bottom-left origin, Y-up) to
 /// screen coordinates (top-left origin, Y-down) matching Emacs and CGEvent conventions.
@@ -39,6 +41,20 @@ func emacs(_ cmd: EmacsCommand) {
 		// Use single quotes to avoid shell escaping issues with parentheses
 		let escapedExpr = contextExpr.replacingOccurrences(of: "'", with: "'\\''")
 		try? execute("\(bin) -n -e '\(escapedExpr)'")
+	}
+}
+
+func activateEmacsApp() {
+	guard FileManager.default.fileExists(atPath: emacsAppURL.path) else { return }
+
+	let process = Process()
+	process.executableURL = URL(fileURLWithPath: "/usr/bin/open")
+	process.arguments = ["-a", emacsAppURL.path]
+
+	do {
+		try process.run()
+	} catch {
+		NSLog("Failed to invoke open for Emacs.app: %@", error.localizedDescription)
 	}
 }
 
@@ -77,5 +93,3 @@ private func getElispCode(_ input: String) -> String? {
 	// Read and return file content, or return input if read fails
 	return (try? String(contentsOfFile: path, encoding: .utf8))
 }
-
-
